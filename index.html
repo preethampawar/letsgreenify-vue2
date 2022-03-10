@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Hello, world!</title>
+
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	<!-- Custom styles for this template -->
+	<link href="/assets/css/site.css" rel="stylesheet">
+	<!-- vue progress bar -->
+	<link href="https://unpkg.com/nprogress@0.2.0/nprogress.css" rel="stylesheet" />
+
+	
+	<script>
+		// Declare global variables here
+		var browserDb = {}
+		var eNursery = {}
+		var app = {}
+		eNursery.siteId = 25;
+
+		function storageAvailable(type) {
+			var storage;
+			try {
+				storage = window[type];
+				var x = '__storage_test__';
+				storage.setItem(x, x);
+				storage.removeItem(x);
+				return true;
+			}
+			catch(e) {
+				return e instanceof DOMException && (
+					// everything except Firefox
+					e.code === 22 ||
+					// Firefox
+					e.code === 1014 ||
+					// test name field too, because code might not be present
+					// everything except Firefox
+					e.name === 'QuotaExceededError' ||
+					// Firefox
+					e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+					// acknowledge QuotaExceededError only if there's something already stored
+					(storage && storage.length !== 0);
+			}
+		}
+		if (storageAvailable('localStorage')) {
+			browserDb = localStorage
+		}
+		else {
+			browserDb = sessionStorage
+		}
+		browserDb.siteId = eNursery.siteId
+	</script>
+	
+	
+	
+  </head>
+  <body>
+	<div id="firstPaint">
+		<div id="siteTitle" class="text-center">LetsGreenify</div>			
+		<div id="siteDesc">We are a small group of Engineers working towards development of Agricutural Sector by utilizing the power of Web and Open Source Technologies.</div>
+	</div>
+	<script>
+		var eNursery = {}
+		var firstReq = fetch('//www.letsgreenify.com/api/getSiteInfo/25').then(function(response) {
+			return response.json();			
+		}).then(function(json) {
+			eNursery.site_url = json.result.site_url
+			eNursery.siteInfo = json.result.site_info
+			eNursery.image_path = json.result.image_path				
+			return json
+		}.bind(this)).catch(function(err) {
+			console.log('Fetch problem: ' + err.message);
+		})
+		firstReq.then(function(response) {
+			return response	
+		})
+	</script>
+
+	<!-- vue js scripts -->
+		<!-- development version, includes helpful console warnings -->
+		<!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+
+		<!-- production version, optimized for size and speed -->
+		<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+		<!--<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>-->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/2.8.0/vue-router.js" integrity="sha512-abGJIunFPKLUDQfnCipRK+JZv4zUL9TbVXopiXFPRjG9ZX/eXBFog5Km9PM4MjQ1nl8vqUns0lbnaK/Z6i+qxQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<script src="https://unpkg.com/vuex@3.3.0/dist/vuex.js"></script>
+		
+		<script src="/assets/js/vue-api-mixins.js" type="module"></script>		
+		<script src="/assets/js/vue-mixins.js" type="module"></script>
+		<script src="/assets/js/vue-local-storage-mixins.js" type="module"></script>
+		<script src="/assets/js/vue-main.js" type="module"></script>	
+
+	<div id="app">
+		<top-nav :siteid="siteId"></top-nav>
+		
+		<main role="main" class="container mb-5">			
+			<div>					
+				<alert-message></alert-message>
+				<cart-nav :siteid="siteId"></cart-nav>
+				<router-view></router-view>
+			</div>
+		</main><!-- /.container -->
+		<footer class="pt-5">
+			<div class="navbar fixed-bottom navbar-light bg-light d-block">
+				<p class="text-center small">Copyright @2020. www.letsgreenify.com</p>
+			</div>
+		</footer>
+	</div>	
+
+	<!-- Optional JavaScript -->	
+
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<!-- Popper JS -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<!-- Latest compiled JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+	<!-- vue progress bar -->	
+		<script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
+
+	<!-- font awesome --> 
+		<script src="https://kit.fontawesome.com/231b614f56.js" crossorigin="anonymous" async></script>
+  </body>
+</html>
